@@ -1,0 +1,21 @@
+<h1>Connexion Admin</h1>
+
+<%= form_with url: session_path, method: :post do |f| %>
+  <div>
+    <%= label_tag :email %><br>
+    <%= email_field_tag :email, nil, required: true %>
+  </div>
+
+  <div>
+    <%= label_tag :password %><br>
+    <%= password_field_tag :password, nil, required: true %>
+  </div>
+
+  <div>
+    <%= submit_tag "Se connecter" %>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <p style="color:red;"><%= flash[:alert] %></p>
+<% end %>
