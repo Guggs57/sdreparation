@@ -1,2 +1,0 @@
-class OderMailer < ApplicationMailer
-end
