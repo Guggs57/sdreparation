@@ -1,0 +1,10 @@
+<h1>Nos Produits</h1>
+
+<% @products.each do |product| %>
+  <div style="border:1px solid #ccc; margin:1em 0; padding:1em;">
+    <h2><%= link_to product.name, product_path(product) %></h2>
+    <p><%= product.description %></p>
+    <p><strong><%= number_to_currency(product.price, unit: "€") %></strong></p>
+    <%= image_tag product.image_url, alt: product.name, style: "max-width: 200px;" if product.image_url.present? %>
+  </div>
+<% end %>
