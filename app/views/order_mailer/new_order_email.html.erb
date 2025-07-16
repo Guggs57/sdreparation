@@ -5,10 +5,7 @@
 <p><strong>Téléphone :</strong> <%= @order.phone %></p>
 <p><strong>Adresse :</strong> <%= simple_format(@order.address) %></p>
 
-<h2>Contenu de la commande :</h2>
-
+<h2>Détails de la commande :</h2>
 <% JSON.parse(@order.items).each do |item| %>
-  <p>
-    • <strong><%= item["name"] %></strong> – Quantité : <%= item["qty"] || 1 %>
-  </p>
+  <p>• <strong><%= item["name"] %></strong> — Quantité : <%= item["qty"] || 1 %></p>
 <% end %>

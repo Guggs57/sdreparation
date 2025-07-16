@@ -1,5 +1,5 @@
 class OrderMailer < ApplicationMailer
-  default to: "ton-client@exemple.com"  # Remplace par l'adresse réelle
+  default to: "n_guggenbuhl@hotmail.com" # remplace ici par l'email réel du client
 
   def new_order_email
     @order = params[:order]

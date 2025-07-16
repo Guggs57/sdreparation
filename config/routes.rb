@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :products
   end
 
-  rresources :orders, only: [:new, :create] do
+  resources :orders, only: [:new, :create] do
   collection do
     get :success
   end
@@ -18,3 +18,4 @@ end
   # ✅ Page d’accueil publique
   root "home#index"
 end
+
