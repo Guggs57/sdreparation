@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get "home/index"
   # ✅ Session admin (login/logout)
   resource :session, only: [:new, :create, :destroy]
 
@@ -8,6 +7,11 @@ Rails.application.routes.draw do
     resources :products
   end
 
+  rresources :orders, only: [:new, :create] do
+  collection do
+    get :success
+  end
+end
   # ✅ Vitrine publique (utilisateurs)
   resources :products, only: [:index, :show]
 
