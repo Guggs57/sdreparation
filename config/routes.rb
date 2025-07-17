@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "carts/show"
   # ✅ Session admin (login/logout)
   resource :session, only: [:new, :create, :destroy]
 
@@ -14,6 +15,8 @@ Rails.application.routes.draw do
 end
   # ✅ Vitrine publique (utilisateurs)
   resources :products, only: [:index, :show]
+
+  resources :carts, only: [:show]
 
   # ✅ Page d’accueil publique
   root "home#index"
