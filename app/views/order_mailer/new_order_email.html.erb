@@ -1,11 +1,8 @@
-<h1>Nouvelle commande reçue</h1>
+<h2>Nouvelle commande</h2>
+<p><strong>Client :</strong> <%= @first_name %> <%= @last_name %> (<%= @customer_email %>)</p>
 
-<p><strong>Nom :</strong> <%= @order.name %></p>
-<p><strong>Email :</strong> <%= @order.email %></p>
-<p><strong>Téléphone :</strong> <%= @order.phone %></p>
-<p><strong>Adresse :</strong> <%= simple_format(@order.address) %></p>
-
-<h2>Détails de la commande :</h2>
-<% JSON.parse(@order.items).each do |item| %>
-  <p>• <strong><%= item["name"] %></strong> — Quantité : <%= item["qty"] || 1 %></p>
-<% end %>
+<ul>
+  <% @cart.each do |item| %>
+    <li><%= item["qty"] %> x <%= item["name"] %> – <%= number_to_currency(item["price"]) %></li>
+  <% end %>
+</ul>
