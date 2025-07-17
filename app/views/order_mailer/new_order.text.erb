@@ -1,7 +1,11 @@
-<!-- app/views/order_mailer/new_order.text.erb -->
 Nouvelle commande
 
 Client : <%= @first_name %> <%= @last_name %> (<%= @customer_email %>)
+Téléphone : <%= @phone || "Non renseigné" %>
+
+Adresse de livraison :
+<%= @address_number %> <%= @address_street %>
+<%= @postal_code %> <%= @city %>
 
 <% @cart.each do |item| %>
   - <%= item["qty"] %> x <%= item["name"] %> – <%= number_to_currency(item["price"]) %>
