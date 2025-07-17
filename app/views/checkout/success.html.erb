@@ -1,0 +1,15 @@
+<!-- app/views/checkout/success.html.erb -->
+<h1>✅ Paiement confirmé !</h1>
+<p>Merci pour votre commande, Nicolas !</p>
+
+<p>Votre panier a été vidé automatiquement.</p>
+
+<a href="<%= root_path %>">← Retour à l'accueil</a>
+
+<script>
+  // Vide le panier si Stripe a redirigé ici
+  document.addEventListener("DOMContentLoaded", () => {
+    localStorage.removeItem("cart");
+    console.log("🧹 Panier vidé après succès Stripe");
+  });
+</script>

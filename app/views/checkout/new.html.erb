@@ -1,47 +1,29 @@
 <h1>Finaliser ma commande</h1>
 
-<%= form_with url: checkout_index_path, method: :post, local: true, id: "checkout-form" do |f| %>
+<div data-controller="cart">
   <div>
-    <%= f.label :first_name, "Prénom" %><br>
-    <%= f.text_field :first_name, required: true %>
+    <label>Prénom</label><br>
+    <input type="text" data-cart-target="firstName" required>
   </div>
 
   <div>
-    <%= f.label :last_name, "Nom" %><br>
-    <%= f.text_field :last_name, required: true %>
+    <label>Nom</label><br>
+    <input type="text" data-cart-target="lastName" required>
   </div>
 
   <div>
-    <%= f.label :email, "Adresse e-mail" %><br>
-    <%= f.email_field :email, required: true %>
+    <label>Email</label><br>
+    <input type="email" data-cart-target="email" required>
   </div>
 
   <div>
-    <%= f.label :phone, "Téléphone (optionnel)" %><br>
-    <%= f.telephone_field :phone %>
+    <label>Téléphone</label><br>
+    <input type="tel" data-cart-target="phone">
   </div>
 
-  <%= f.submit "Procéder au paiement" %>
-<% end %>
+  <hr>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("checkout-form")
-    form.addEventListener("submit", function(event) {
-      const cart = JSON.parse(localStorage.getItem("cart")) || []
+  <div data-cart-target="display"></div>
 
-      if (cart.length === 0) {
-        alert("Votre panier est vide.")
-        event.preventDefault()
-        return
-      }
-
-      // On ajoute les données du panier dans un champ caché
-      const input = document.createElement("input")
-      input.type = "hidden"
-      input.name = "cart_data"
-      input.value = JSON.stringify(cart)
-      form.appendChild(input)
-    })
-  })
-</script>
+  <button data-action="click->cart#checkout">Procéder au paiement</button>
+</div>

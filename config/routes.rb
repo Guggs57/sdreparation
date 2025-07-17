@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get "checkout/create"
   get "carts/show"
+
   # ✅ Session admin (login/logout)
   resource :session, only: [:new, :create, :destroy]
 
@@ -9,24 +9,25 @@ Rails.application.routes.draw do
     resources :products
   end
 
-  post "/checkout", to: "checkout#create"
-resources :carts, only: [:show]
-
-  resources :orders, only: [:new, :create] do
-  collection do
-    get :success
+  # ✅ Checkout avec route success CORRECTE
+  resources :checkout, only: [:new, :create] do
+    collection do
+      get 'success', to: 'checkout#success', as: 'checkout_success'
+    end
   end
-end
 
-    resources :checkout, only: [:new, :create]
 
+  # ✅ Commandes avec page de succès
+  resources :orders, only: [:new, :create] do
+    collection do
+      get :success
+    end
+  end
 
   # ✅ Vitrine publique (utilisateurs)
   resources :products, only: [:index, :show]
-
   resources :carts, only: [:show]
 
   # ✅ Page d’accueil publique
   root "home#index"
 end
-
