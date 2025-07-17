@@ -1,13 +1,20 @@
-// app/javascript/controllers/cart_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["display", "firstName", "lastName", "email", "phone"]
+  static targets = [
+    "display", "firstName", "lastName", "email", "phone",
+    "addressNumber", "addressStreet", "postalCode", "city"
+  ]
 
   connect() {
     console.log("✅ CartController chargé")
     this.loadCart()
     this.displayCart()
+  }
+
+  loadCart() {
+    const savedCart = localStorage.getItem("cart")
+    this.cart = savedCart ? JSON.parse(savedCart) : []
   }
 
   add(event) {
@@ -17,18 +24,16 @@ export default class extends Controller {
     const price = parseFloat(button.dataset.price)
 
     const item = { id, name, price, qty: 1 }
-    const cart = this.cart || []
-    const existingItem = cart.find((i) => i.id === id)
+    const existingItem = this.cart.find(i => i.id === id)
 
     if (existingItem) {
       existingItem.qty += 1
     } else {
-      cart.push(item)
+      this.cart.push(item)
     }
 
-    this.cart = cart
-    localStorage.setItem("cart", JSON.stringify(cart))
-    console.log("🛒 Panier mis à jour :", cart)
+    localStorage.setItem("cart", JSON.stringify(this.cart))
+    console.log("🛒 Panier mis à jour :", this.cart)
 
     this.displayCart()
   }
@@ -36,15 +41,13 @@ export default class extends Controller {
   displayCart() {
     if (!this.hasDisplayTarget) return
 
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || []
-
-    if (savedCart.length === 0) {
+    if (this.cart.length === 0) {
       this.displayTarget.innerHTML = "<p>Votre panier est vide.</p>"
       return
     }
 
     let total = 0
-    const html = savedCart.map(item => {
+    const html = this.cart.map(item => {
       const subtotal = item.price * item.qty
       total += subtotal
       return `<div>
@@ -55,18 +58,25 @@ export default class extends Controller {
     this.displayTarget.innerHTML = html + `<hr><strong>Total : ${total.toFixed(2)} €</strong>`
   }
 
-  loadCart() {
-    const savedCart = localStorage.getItem("cart")
-    this.cart = savedCart ? JSON.parse(savedCart) : []
-  }
-
   checkout() {
     console.log("🟡 checkout() déclenchée")
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || []
-
-    if (cart.length === 0) {
+    if (this.cart.length === 0) {
       alert("Votre panier est vide.")
+      return
+    }
+
+    // Validation simple des champs requis
+    if (
+      !this.firstNameTarget.value.trim() ||
+      !this.lastNameTarget.value.trim() ||
+      !this.emailTarget.value.trim() ||
+      !this.addressNumberTarget.value.trim() ||
+      !this.addressStreetTarget.value.trim() ||
+      !this.postalCodeTarget.value.trim() ||
+      !this.cityTarget.value.trim()
+    ) {
+      alert("Veuillez remplir tous les champs obligatoires.")
       return
     }
 
@@ -75,7 +85,11 @@ export default class extends Controller {
       last_name: this.lastNameTarget.value,
       email: this.emailTarget.value,
       phone: this.phoneTarget.value,
-      cart_data: cart
+      address_number: this.addressNumberTarget.value,
+      address_street: this.addressStreetTarget.value,
+      postal_code: this.postalCodeTarget.value,
+      city: this.cityTarget.value,
+      cart_data: this.cart
     }
 
     fetch("/checkout", {
@@ -87,6 +101,7 @@ export default class extends Controller {
       .then(data => {
         if (data.url) {
           console.log("🔁 Redirection vers Stripe :", data.url)
+          localStorage.removeItem("cart") // vide le panier après redirection
           window.location.href = data.url
         } else {
           alert("❌ Paiement impossible.")
