@@ -1,3 +1,7 @@
-// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
+import { Application } from "@hotwired/stimulus"
 import "@hotwired/turbo-rails"
-import "controllers"
+import CartController from "controllers/cart_controller" // <-- grâce au pin
+
+const application = Application.start()
+window.Stimulus = application
+application.register("cart", CartController)
