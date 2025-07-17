@@ -72,3 +72,7 @@ group :test do
   gem "selenium-webdriver"
 end
 gem "importmap", "~> 0.1.0"
+
+gem "stripe", "~> 15.3"
+
+gem "dotenv-rails", "~> 3.1", groups: [:development, :test ]
