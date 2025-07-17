@@ -32,7 +32,7 @@ export default class extends Controller {
     localStorage.setItem("cart", JSON.stringify(cart))
     console.log("🛒 Panier mis à jour :", cart)
 
-    this.displayCart() // pour mettre à jour la vue si on est sur /carts/1
+    this.displayCart()
   }
 
   displayCart() {
@@ -55,6 +55,37 @@ export default class extends Controller {
     }).join("")
 
     this.displayTarget.innerHTML = html + `<hr><strong>Total : ${total.toFixed(2)} €</strong>`
+  }
+
+  checkout() {
+    console.log("🟡 checkout() déclenchée")
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || []
+
+    if (cart.length === 0) {
+      alert("Votre panier est vide.")
+      return
+    }
+
+    console.log("📤 Envoi des données au backend...")
+
+    fetch("/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cart)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.url) {
+          console.log("🔁 Redirection vers Stripe via URL :", data.url)
+          window.location.href = data.url
+        } else {
+          console.error("❌ Erreur backend ou pas d'URL Stripe :", data)
+        }
+      })
+      .catch(err => {
+        console.error("🌐 Erreur réseau : ", err)
+      })
   }
 
   loadCart() {

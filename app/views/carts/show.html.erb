@@ -1,5 +1,13 @@
 <h1>Mon Panier</h1>
 
-<div data-controller="cart" data-cart-target="display"></div>
+<div data-controller="cart">
+  <div data-cart-target="display">
+    <!-- Contenu dynamique du panier affiché ici -->
+  </div>
 
-<button style="margin-top: 2em;">Commander</button>
+  <%= link_to "🧾 Finaliser ma commande", new_checkout_path, class: "btn", style: "margin-top: 2em; display:inline-block; background:#333; color:#fff; padding:0.5em 1em; border-radius:4px; text-decoration:none;" %>
+</div>
+
+<script>
+  console.log("🧪 JS actif sur cette page")
+</script>
