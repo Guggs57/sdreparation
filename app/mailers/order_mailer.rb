@@ -1,11 +1,15 @@
 class OrderMailer < ApplicationMailer
-  default to: "n_guggenbuhl@hotmail.com" # remplace ici par l'email réel du client
+  default to: "n_guggenbuhl@hotmail.com"
 
-  def new_order_email
-    @order = params[:order]
+  def new_order(email:, cart:, first_name:, last_name:)
+    @cart = cart
+    @first_name = first_name
+    @last_name = last_name
+    @customer_email = email
+
     mail(
-      from: @order.email,
-      subject: "Nouvelle commande de #{@order.name}"
+      subject: "🛒 Nouvelle commande reçue",
+      from: email
     )
   end
 end

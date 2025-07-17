@@ -2,6 +2,7 @@ class CheckoutController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
 
   def new
+    # Affiche le formulaire
   end
 
   def create
@@ -32,8 +33,14 @@ class CheckoutController < ApplicationController
         customer_email: email,
         line_items: line_items,
         mode: "payment",
-        success_url: checkout_success_checkout_index_url,
-        cancel_url: root_url + "?cancel=true"
+        success_url: checkout_success_checkout_index_url + "?session_id={CHECKOUT_SESSION_ID}",
+        cancel_url: root_url + "?cancel=true",
+        metadata: {
+          first_name: first_name,
+          last_name: last_name,
+          phone: phone,
+          cart: cart.to_json
+        }
       )
 
       render json: { url: session.url }
@@ -46,6 +53,28 @@ class CheckoutController < ApplicationController
   end
 
   def success
-    # Vue app/views/checkout/success.html.erb
+    session_id = params[:session_id]
+    return render plain: "Session ID manquant", status: :bad_request unless session_id
+
+    session = Stripe::Checkout::Session.retrieve(session_id)
+    metadata = session.metadata
+
+    first_name = metadata["first_name"]
+    last_name  = metadata["last_name"]
+    phone      = metadata["phone"]
+    cart       = JSON.parse(metadata["cart"]) rescue []
+    email      = session.customer_email
+
+    # Envoi du mail APRÈS validation du paiement
+    begin
+      OrderMailer.new_order(
+        email: email,
+        cart: cart,
+        first_name: first_name,
+        last_name: last_name
+      ).deliver_now
+    rescue => e
+      Rails.logger.error "📪 Erreur d'envoi de l'e-mail : #{e.message}"
+    end
   end
 end
