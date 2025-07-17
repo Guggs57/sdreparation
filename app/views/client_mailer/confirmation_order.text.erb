@@ -1,0 +1,17 @@
+Bonjour <%= @first_name %> <%= @last_name %>,
+
+Merci pour votre commande !
+
+Adresse de livraison :
+<%= @address_number %> <%= @address_street %>
+<%= @postal_code %> <%= @city %>
+
+Voici le récapitulatif de votre commande :
+
+<% @cart.each do |item| %>
+  - <%= item["qty"] %> x <%= item["name"] %> – <%= number_to_currency(item["price"]) %>
+<% end %>
+
+Nous vous contacterons si nécessaire. 
+
+Merci de votre confiance !

@@ -77,8 +77,8 @@ class CheckoutController < ApplicationController
     cart       = JSON.parse(metadata["cart"]) rescue []
     email      = session.customer_email
 
-    # Exemple d'envoi mail avec toutes les infos y compris l'adresse
     begin
+      # Mail pour l'admin (toi)
       OrderMailer.new_order(
         email: email,
         cart: cart,
@@ -94,7 +94,23 @@ class CheckoutController < ApplicationController
       Rails.logger.error "📪 Erreur d'envoi de l'e-mail : #{e.message}"
     end
 
-    # Affiche une page succès simple (à personnaliser)
+    begin
+      # Mail de confirmation pour le client (acheteur)
+      ClientMailer.confirmation_order(
+        email: email,
+        cart: cart,
+        first_name: first_name,
+        last_name: last_name,
+        phone: phone,
+        address_number: address_number,
+        address_street: address_street,
+        postal_code: postal_code,
+        city: city
+      ).deliver_now
+    rescue => e
+      Rails.logger.error "📪 Erreur d'envoi du mail client : #{e.message}"
+    end
+
     render :success
   end
 end
