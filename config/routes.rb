@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get "carts/show"
 
+  # ✅ Accès caché à la page de login admin
+  get "/Admin", to: "sessions#new"
+
   # ✅ Session admin (login/logout)
   resource :session, only: [:new, :create, :destroy]
 
@@ -9,25 +12,24 @@ Rails.application.routes.draw do
     resources :products
   end
 
-  # ✅ Checkout avec route success CORRECTE
+  # ✅ Checkout
   resources :checkout, only: [:new, :create] do
     collection do
       get 'success', to: 'checkout#success', as: 'checkout_success'
     end
   end
 
-
-  # ✅ Commandes avec page de succès
+  # ✅ Commandes
   resources :orders, only: [:new, :create] do
     collection do
       get :success
     end
   end
 
-  # ✅ Vitrine publique (utilisateurs)
+  # ✅ Vitrine publique
   resources :products, only: [:index, :show]
   resources :carts, only: [:show]
 
-  # ✅ Page d’accueil publique
+  # ✅ Page d’accueil
   root "home#index"
 end
