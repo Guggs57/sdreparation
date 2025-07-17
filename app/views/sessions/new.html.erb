@@ -3,19 +3,19 @@
 <%= form_with url: session_path, method: :post do |f| %>
   <div>
     <%= label_tag :email %><br>
-    <%= email_field_tag :email, nil, required: true %>
+    <%= text_field_tag :email, params[:email] %>
   </div>
 
   <div>
     <%= label_tag :password %><br>
-    <%= password_field_tag :password, nil, required: true %>
+    <%= password_field_tag :password %>
   </div>
 
   <div>
-    <%= submit_tag "Se connecter" %>
+    <%= submit_tag "Connexion" %>
   </div>
 <% end %>
 
 <% if flash[:alert] %>
-  <p style="color:red;"><%= flash[:alert] %></p>
+  <p style="color: red;"><%= flash[:alert] %></p>
 <% end %>

@@ -45,6 +45,8 @@ class Admin::ProductsController < ApplicationController
   end
 
   def require_admin
-    redirect_to root_path unless session[:admin_user_id]
+    unless session[:admin_user_id] && AdminUser.exists?(session[:admin_user_id])
+      redirect_to '/Admin', alert: "Accès réservé à l’administrateur."
+    end
   end
 end

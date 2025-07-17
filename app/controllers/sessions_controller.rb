@@ -4,9 +4,9 @@ class SessionsController < ApplicationController
 
   def create
     user = AdminUser.find_by(email: params[:email])
-      if user&.authenticate(params[:password])
+    if user&.authenticate(params[:password])
       session[:admin_user_id] = user.id
-      redirect_to root_path, notice: "Connexion réussie."
+      redirect_to admin_products_path, notice: "Connexion réussie."
     else
       flash.now[:alert] = "Identifiants incorrects"
       render :new
@@ -15,6 +15,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:admin_user_id] = nil
-    redirect_to root_path, notice: "Déconnecté avec succès." 
+    redirect_to root_path, notice: "Déconnecté avec succès."
   end
 end
