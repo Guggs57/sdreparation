@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title><%= content_for(:title) || "Sdreparation" %></title>
+  <meta charset="utf-8">
+  <title><%= content_for?(:title) ? yield(:title) : "SDPréparation" %></title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -9,12 +10,22 @@
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 
+  <!-- Stripe -->
   <script src="https://js.stripe.com/v3/"></script>
-
   <meta name="stripe-public-key" content="<%= ENV["STRIPE_PUBLIC_KEY"] %>">
 </head>
 
-  <body>
+<body>
+  <header>
+    <%= render 'layouts/nav' %>
+  </header>
+
+  <main>
     <%= yield %>
-  </body>
+  </main>
+
+  <footer>
+    <%= render 'layouts/footer' %>
+  </footer>
+</body>
 </html>

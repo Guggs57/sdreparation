@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
-  get "carts/show"
+  # ✅ Back-office RailsAdmin
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  # ✅ Accès caché à la page de login admin
-  get "/Admin", to: "sessions#new"
+  # ✅ Authentification Devise pour AdminUser via une URL secrète
+  devise_for :admin_users, path: 'goku-ssj4-secret'
 
-  # ✅ Session admin (login/logout)
-  resource :session, only: [:new, :create, :destroy]
+  # ✅ Vitrine publique
+  resources :products, only: [:index, :show]
+  get '/cart', to: 'carts#show', as: 'cart'
 
-  # ✅ Espace admin sécurisé
+  # ✅ Espace admin privé (utilisé uniquement après login)
   namespace :admin do
     resources :products
   end
@@ -26,10 +28,9 @@ Rails.application.routes.draw do
     end
   end
 
-  # ✅ Vitrine publique
-  resources :products, only: [:index, :show]
-  resources :carts, only: [:show]
-
   # ✅ Page d’accueil
   root "home#index"
+
+  # ✅ Redirection propre pour éviter /Admin mal tapé
+  get "/Admin", to: redirect("/admin")
 end

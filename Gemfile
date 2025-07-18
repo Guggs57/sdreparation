@@ -76,3 +76,8 @@ gem "importmap", "~> 0.1.0"
 gem "stripe", "~> 15.3"
 
 gem "dotenv-rails", "~> 3.1", groups: [:development, :test ]
+
+gem "devise", "~> 4.9"
+
+gem "rails_admin", "~> 3.3"
+gem "cssbundling-rails"

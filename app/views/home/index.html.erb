@@ -1,8 +1,9 @@
-<h1>Bienvenue sur SDPREPARATION</h1>
-<p>Spécialiste 2T : pièces, faisceaux, électronique, performance scooter.</p>
+<div class="home-container">
+  <h1>Bienvenue sur <span>SDPREPARATION</span></h1>
+  <p>Spécialiste 2T : pièces, faisceaux, électronique, performance scooter.</p>
 
-<%= link_to "Voir nos produits", products_path, class: "btn" %>
-
-<div style="margin-bottom: 2em;">
-  <%= link_to "🛒 Voir le panier", cart_path(1), style: "padding: 0.5em 1em; background: #333; color: #fff; text-decoration: none; border-radius: 5px;" %>
+  <div class="home-buttons">
+    <%= link_to "Voir nos produits", products_path, class: "btn btn-primary" %>
+    <%= link_to "🛒 Voir le panier", cart_path(1), class: "btn btn-cart" %>
+  </div>
 </div>
