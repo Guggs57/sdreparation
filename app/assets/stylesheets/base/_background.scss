@@ -1,9 +1,8 @@
 body {
-  background-image: url("/assets/background_sd.png");
+  border: 5px solid red;
+  background-image: url("/assets/background_sd.png"); // ✅ plus de `image-url(...)`
   background-size: cover;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-position: center;
-  color: #f0f0f0;
-  font-family: 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
 }

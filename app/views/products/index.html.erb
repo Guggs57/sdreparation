@@ -1,23 +1,25 @@
 <h1>Nos produits</h1>
 
-<% if admin_signed_in? %>
-  <%= link_to "Ajouter un produit", new_admin_product_path, class: "btn btn-primary" %>
-<% end %>
-
 <div class="products-list">
   <% @products.each do |product| %>
-    <div class="product-card">
-      <h3><%= product.name %></h3>
-      <p><%= product.description %></p>
-      <p><%= number_to_currency(product.price) %></p>
-      <%= image_tag(product.image_url, width: 200) if product.image_url.present? %>
-
-      <% if admin_signed_in? %>
-        <div class="admin-actions">
-          <%= link_to "Modifier", edit_admin_product_path(product), class: "btn btn-warning" %>
-          <%= link_to "Supprimer", admin_product_path(product), method: :delete, data: { confirm: "Supprimer ce produit ?" }, class: "btn btn-danger" %>
+    <%= link_to product_path(product), class: "product-card-link" do %>
+      <div class="product-card">
+        <div class="product-image">
+          <%= image_tag(product.image_url.presence || "default_product.png", alt: product.name) %>
         </div>
-      <% end %>
-    </div>
+        <div class="product-content">
+          <h3><%= product.name %></h3>
+          <p class="product-price"><%= number_to_currency(product.price) %></p>
+          <p class="product-desc"><%= product.description %></p>
+
+          <% if admin_signed_in? %>
+            <div class="admin-actions">
+              <%= link_to "Modifier", edit_admin_product_path(product), class: "btn btn-warning" %>
+              <%= link_to "Supprimer", admin_product_path(product), method: :delete, data: { confirm: "Supprimer ce produit ?" }, class: "btn btn-danger" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 </div>

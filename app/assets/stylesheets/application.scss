@@ -2,7 +2,8 @@
 @use "home/home";
 @use "layouts/nav";
 @use "layouts/footer";
-@use "base/background";
+@use "products/products";
+@import "base/background";
 
 * {
   margin: 0;
