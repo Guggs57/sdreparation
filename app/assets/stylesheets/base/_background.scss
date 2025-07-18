@@ -1,8 +1,6 @@
 body {
-  border: 5px solid red;
-  background-image: url("/assets/background_sd.png"); // ✅ plus de `image-url(...)`
+  background-image: url("background_sd.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  min-height: 100vh;
 }
