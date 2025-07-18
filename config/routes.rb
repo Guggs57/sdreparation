@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
+  # ✅ Back-office RailsAdmin
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  # ✅ Authentification avec Devise pour AdminUser
-  devise_for :admin_users
+
+  # ✅ Authentification Devise pour AdminUser via une URL secrète
+  devise_for :admin_users, path: 'goku-ssj4-secret'
 
   # ✅ Vitrine publique
   resources :products, only: [:index, :show]
-  resources :carts, only: [:show]
+  get '/cart', to: 'carts#show', as: 'cart'
 
-  # ✅ Espace admin (géré par RailsAdmin si installé)
+  # ✅ Espace admin privé (utilisé uniquement après login)
   namespace :admin do
     resources :products
   end
@@ -29,5 +31,6 @@ Rails.application.routes.draw do
   # ✅ Page d’accueil
   root "home#index"
 
+  # ✅ Redirection propre pour éviter /Admin mal tapé
   get "/Admin", to: redirect("/admin")
 end
