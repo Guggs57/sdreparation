@@ -1,5 +1,4 @@
-pin "application"
+pin "application", to: "application.js", preload: true
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
-pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
-pin "controllers/cart_controller", to: "controllers/cart_controller.js"
+pin "stimulus" # @3.2.2

@@ -1,7 +1,7 @@
 import { Application } from "@hotwired/stimulus"
-import "@hotwired/turbo-rails"
-import CartController from "controllers/cart_controller" // <-- grâce au pin
+import CartController from "./controllers/cart_controller"
+import HelloController from "./controllers/hello_controller"
 
-const application = Application.start()
-window.Stimulus = application
-application.register("cart", CartController)
+window.Stimulus = Application.start()
+Stimulus.register("cart", CartController)
+Stimulus.register("hello", HelloController)

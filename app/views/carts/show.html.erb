@@ -1,13 +1,26 @@
-<h1>Mon Panier</h1>
+<main class="cart">
+  <h1>🛒 Votre panier</h1>
 
-<div data-controller="cart">
-  <div data-cart-target="display">
-    <!-- Contenu dynamique du panier affiché ici -->
-  </div>
+  <% if @products.any? %>
+    <ul class="cart-list">
+      <% total_price = 0 %>
+      <% @products.each do |product| %>
+        <li>
+          <strong><%= product.name %></strong> – 
+          <%= number_to_currency(product.price, unit: "€") %>
+          <% total_price += product.price %>
+        </li>
+      <% end %>
+    </ul>
 
-  <%= link_to "🧾 Finaliser ma commande", new_checkout_path, class: "btn", style: "margin-top: 2em; display:inline-block; background:#333; color:#fff; padding:0.5em 1em; border-radius:4px; text-decoration:none;" %>
-</div>
+    <div class="cart-total">
+      <p><strong>Total :</strong> <%= number_to_currency(total_price, unit: "€") %></p>
+    </div>
 
-<script>
-  console.log("🧪 JS actif sur cette page")
-</script>
+    <div class="cart-actions">
+      <%= link_to "Finaliser la commande", new_checkout_path, class: "btn btn-primary" %>
+    </div>
+  <% else %>
+    <p>Votre panier est vide.</p>
+  <% end %>
+</main>

@@ -1,6 +1,33 @@
-<h1><%= @product.name %></h1>
-<p><%= @product.description %></p>
-<p><strong><%= number_to_currency(@product.price, unit: "€") %></strong></p>
-<%= image_tag @product.image_url, alt: @product.name, style: "max-width: 300px;" if @product.image_url.present? %>
+<div class="product-show">
+  <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem;">
+    <%= @product.name %>
+  </h1>
 
-<%= link_to "Retour à la boutique", products_path %>
+  <div class="product-details" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+    <!-- Image -->
+    <div class="product-image">
+      <% if @product.image.attached? %>
+        <%= image_tag url_for(@product.image), alt: @product.name, style: "max-width: 300px; border-radius: 8px;" %>
+      <% else %>
+        <%= image_tag "default_product.png", alt: "Image manquante", style: "max-width: 300px; border-radius: 8px;" %>
+      <% end %>
+    </div>
+
+    <!-- Infos produit -->
+    <div class="product-info" style="max-width: 500px;">
+      <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+        <%= @product.description %>
+      </p>
+
+      <p style="font-size: 1.4rem; font-weight: bold; color: #27ae60; margin-bottom: 2rem;">
+        <%= number_to_currency(@product.price, unit: "€") %>
+      </p>
+
+      <%= button_to "Ajouter au panier", cart_add_path(@product), method: :post, class: "btn btn-primary", style: "padding: 0.6rem 1.2rem; background-color: #3498db; color: white; border: none; border-radius: 4px;" %>
+    </div>
+  </div>
+
+  <div style="margin-top: 2rem;">
+    <%= link_to "← Retour à la boutique", products_path, class: "btn", style: "color: #555;" %>
+  </div>
+</div>
